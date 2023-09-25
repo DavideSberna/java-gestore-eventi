@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
  
 
-class Evento {
+public abstract class Evento {
     private String titolo;
     private LocalDate data;
     private int postiTotali;
@@ -61,23 +61,22 @@ class Evento {
     }
 
     public void prenota(int incremento) {
-    	 if (data.isBefore(LocalDate.now()) || postiPrenotati + incremento < 0 || postiPrenotati + incremento > postiTotali) {
-    	        throw new IllegalArgumentException("Impossibile effettuare la modifica delle prenotazioni.");
-    	    }
-    	    postiPrenotati += incremento;
+        if (data.isBefore(LocalDate.now()) || postiPrenotati + incremento < 0 || postiPrenotati + incremento > postiTotali) {
+            throw new IllegalArgumentException("Impossibile effettuare la modifica delle prenotazioni.");
+        }
+        postiPrenotati += incremento;
     }
 
     public void disdici(int incremento) {
-    	if (data.isBefore(LocalDate.now()) || postiPrenotati <= 0) {
-	        throw new IllegalArgumentException("Impossibile effettuare la modifica delle prenotazioni.");
-	    }
-	    postiPrenotati -= incremento;
+        if (data.isBefore(LocalDate.now()) || postiPrenotati <= 0) {
+            throw new IllegalArgumentException("Impossibile effettuare la modifica delle prenotazioni.");
+        }
+        postiPrenotati -= incremento;
     }
 
-    @Override
-    public String toString() {
-        return "Nome evento --> " + getTitolo() + "\n" +
-                "Posti rimanenti --> " + (getPostiTotali() - getPostiPrenotati()) + "\n" +
-                "Posti Prenotati --> " + (getPostiPrenotati() == 0 ? "ancora nessuna prenotazione" : getPostiPrenotati());
-    }
+    
+    public abstract String dettagliEvento();
+
+    
+    public abstract String toStringDettagli();
 }
