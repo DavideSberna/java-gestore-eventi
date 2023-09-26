@@ -2,6 +2,7 @@ package org.java.gestore.eventi;
 
 import java.time.LocalDate;
 
+
  
 
 public abstract class Evento {
@@ -10,7 +11,7 @@ public abstract class Evento {
     private int postiTotali;
     private int postiPrenotati;
 
-    public Evento(String titolo, String data, int postiTotali) {
+    public Evento(String titolo, LocalDate data, int postiTotali) {
         setTitolo(titolo);
         setData(data);
         setPostiTotali(postiTotali);
@@ -29,16 +30,14 @@ public abstract class Evento {
         return data;
     }
 
-    public void setData(String data) {
-        String[] partiData = data.split("/");
-        int anno = Integer.parseInt(partiData[0]);
-        int mese = Integer.parseInt(partiData[1]);
-        int giorno = Integer.parseInt(partiData[2]);
-        this.data = LocalDate.of(anno, mese, giorno);
+    public void setData(LocalDate data) {
+    	
+    	if (data.isBefore(LocalDate.now())) {
+    		throw new IllegalArgumentException("La data non può essere passata");
+    	}
+    	
+        this.data = data;
 
-        if (this.data.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("La data non può essere passata");
-        }
     }
 
     public int getPostiTotali() {
@@ -77,6 +76,11 @@ public abstract class Evento {
     
     public abstract String dettagliEvento();
 
-    
     public abstract String toStringDettagli();
+    
+    @Override
+    public String toString() {
+    	
+    	return data.toString() + " - " + titolo;
+    }
 }

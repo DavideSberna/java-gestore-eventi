@@ -1,13 +1,14 @@
 package org.java.gestore.eventi;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 class Concerto extends Evento {
     private LocalTime ora;
     private BigDecimal prezzo;
 
-    public Concerto(String titolo, String data, int postiTotali, LocalTime ora, BigDecimal prezzo) {
+    public Concerto(String titolo, LocalDate data, int postiTotali, LocalTime ora, BigDecimal prezzo) {
         super(titolo, data, postiTotali);
         setOra(ora);
         setPrezzo(prezzo);
@@ -28,6 +29,15 @@ class Concerto extends Evento {
     public void setPrezzo(BigDecimal prezzo) {
         this.prezzo = prezzo;
     }
+    
+    
+    public String getDataOraFormattata() {
+        return getData().toString() + " " + ora.toString();
+    }
+
+    public String getPrezzoFormattato() {
+        return String.format("%.2f€", prezzo);
+    }
 
     @Override
     public String dettagliEvento() {
@@ -43,5 +53,10 @@ class Concerto extends Evento {
     @Override
     public String toStringDettagli() {
         return dettagliEvento();
+    }
+    
+    @Override
+    public String toString() {
+    	return getDataOraFormattata() + " - " + getTitolo() + " - " + getPrezzoFormattato();
     }
 }
